@@ -1,7 +1,19 @@
 body 
 {
+    background-color: rgb(59,59,59);
+    font-family: sans-serif;
+    width: 100%;
+    align-content: center;
+    padding: 0;
+    margin: 0;
+}
+div.root {
     background-color: rgb(119,119,119);
-    font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translate(-50%, 0);
 }
 h2
 {
@@ -14,16 +26,14 @@ h2.free
     margin: 10px 10px 0px 10px;
     padding:0px 5px 0px 5px;
     color:rgb(60,60,60);
-    background-color:rgb(185,185,185);
 }
 section
 {
     display: table;
-    max-width: 960px;
+    /* max-width: 960px; */
     margin: 10px 10px 0px 10px;
     padding:0px 15px 0px 15px;
     color:rgb(60,60,60);
-    background-color:rgb(185,185,185);
 }
 a:link 
 {
@@ -71,32 +81,61 @@ td
 }
 div.swatch
 {
-    width: 64px;
-    height: 64px;
-    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 256; /*64px;*/
+    height: 256; /*64px;*/
+    /* display: inline-block; */
 }
 label
 {
+    text-align: right;
+    vertical-align: baseline;
+    margin-left: 16px;
+    font-weight: bold;
+}
+.output
+{
     text-align: center;
-    display:inline-block;
-    width:12px;
+    vertical-align: baseline;
+    font-family: monospace;
+    font-size: x-large;
 }
 input
 {
     border: 1px solid rgba(0,0,0,0.333);
-    border-radius: 4px;
+    border-radius: 0px;
+    padding: 2px;
     text-align: right; 
     font-family: monospace;
+    font-size: x-large;
     color:rgb(30,30,30);
     background-color: rgba(255,255,255,0.5);
 }
+/* Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .hex_input
 {
-    width: 65px;
+    width: 6em;
+    text-align: center;
 }
 .value_input
 {
-    width: 56px; 
+    width: 3em; 
+}
+input#rgbf_output {
+    width: 12em;
+    text-align: center;
 }
 
 .flex-container {
@@ -115,4 +154,17 @@ input
     {
         flex-direction: column;
     }
+}
+
+.input-row {
+    display: flex;
+    flex-direction: row;
+    /* background-color:rgb(185,185,185); */
+    padding: 4px;
+    
+}
+
+.input-row > .spacer {
+    /* background-color:rgb(199,199,199); */
+    width: 32px;
 }

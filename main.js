@@ -41,11 +41,6 @@ worker.onmessage = function (e) {
     display_results(e.data);
 };
 
-let worker_hsluv = new Worker('workerhsluv.js');
-worker_hsluv.onmessage = function (e) {
-    display_results_hsluv(e.data);
-};
-
 let worker_okhsl = new Worker('workerokhsl.js');
 worker_okhsl.onmessage = function (e) {
     display_results_okhsl(e.data);
@@ -58,21 +53,8 @@ function update_canvas(id, image) {
 }
 
 function display_results(results) {
-    update_canvas('hsv_sv_canvas', results["hsv_sv"]);
     update_canvas('okhsv_sv_canvas', results["okhsv_sv"]);
     update_canvas('oklch_lc_canvas', results["oklch_lc"]);
-
-    update_canvas('hsl_hs_canvas', results["hsl_hs"]);
-    update_canvas('hsl_hl_canvas', results["hsl_hl"]);
-    update_canvas('hsl_s_canvas', results["hsl_s"]);
-    update_canvas('hsl_sl_canvas', results["hsl_sl"]);
-}
-
-function display_results_hsluv(results) {
-    update_canvas('hsluv_hs_canvas', results["hsluv_hs"]);
-    update_canvas('hsluv_hl_canvas', results["hsluv_hl"]);
-    update_canvas('hsluv_s_canvas', results["hsluv_s"]);
-    update_canvas('hsluv_sl_canvas', results["hsluv_sl"]);
 }
 
 function display_results_okhsl(results) {
@@ -102,8 +84,6 @@ function update(async = true) {
     }
 
     let hsv = rgb_to_hsv(r, g, b);
-    document.getElementById('hsv_sv_manipulator').transform.baseVal.getItem(0).setTranslate(picker_size * hsv[1], picker_size * (1 - hsv[2]));
-    document.getElementById('hsv_h_manipulator').transform.baseVal.getItem(0).setTranslate(0, picker_size * hsv[0]);
     document.getElementById('hsv_h_input').value = Math.round(360 * hsv[0]);
     document.getElementById('hsv_s_input').value = Math.round(100 * hsv[1]);
     document.getElementById('hsv_v_input').value = Math.round(100 * hsv[2]);
@@ -133,23 +113,29 @@ function update(async = true) {
         document.getElementById('oklch_l_input').value = Math.round(100 * L);
     }
 
-    update_hsl_manipulators("hsl", rgb_to_hsl);
     update_hsl_manipulators("okhsl", srgb_to_okhsl);
-    update_hsl_manipulators("hsluv", rgb_to_hsluv);
 
     if (async) {
         worker.postMessage([r, g, b]);
-        worker_hsluv.postMessage([r, g, b]);
         worker_okhsl.postMessage([r, g, b]);
     }
     else {
         display_results(render(r, g, b));
-        display_results_hsluv(render_hsluv(r, g, b));
         display_results_okhsl(render_okhsl(r, g, b));
     }
 
     document.getElementById('swatch').style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
     document.getElementById('hex_input').value = rgb_to_hex(r, g, b);
+    document.getElementById('rgb_r_input').value = Math.round(r);
+    document.getElementById('rgb_g_input').value = Math.round(g);
+    document.getElementById('rgb_b_input').value = Math.round(b);
+    const rf = (Math.round(r) / 255);
+    const gf = (Math.round(g) / 255);
+    const bf = (Math.round(b) / 255);
+    document.getElementById('rgbf_r_input').value = rf.toFixed(2);
+    document.getElementById('rgbf_g_input').value = gf.toFixed(2);
+    document.getElementById('rgbf_b_input').value = bf.toFixed(2);
+    document.getElementById('rgbf_output').value = `${rf.toFixed(4)} ${gf.toFixed(4)} ${bf.toFixed(4)}`;
 }
 
 function initialize() {
@@ -343,27 +329,6 @@ function initialize() {
         });
     }
 
-    setup_handler(document.getElementById('hsv_sv_canvas'), function (x, y) {
-        let hsv = rgb_to_hsv(r, g, b);
-
-        let new_s = clamp(x / picker_size);
-        let new_v = clamp(1 - y / picker_size);
-
-        rgb = hsv_to_rgb(hsv[0], new_s, new_v);
-        r = rgb[0];
-        g = rgb[1];
-        b = rgb[2];
-    });
-
-    setup_handler(document.getElementById('hsv_h_canvas'), function (x, y) {
-        let h = clamp(y / picker_size);
-
-        let hsv = rgb_to_hsv(r, g, b);
-        rgb = hsv_to_rgb(h, hsv[1], hsv[2]);
-        r = rgb[0];
-        g = rgb[1];
-        b = rgb[2];
-    });
     setup_input_handler(document.getElementById('hsv_h_input'), function (h) {
         h = clamp(h / 360);
         let hsl = rgb_to_hsv(r, g, b);
@@ -588,9 +553,7 @@ function initialize() {
         b = 255 * srgb_transfer_function(rgb[2]);
     });
 
-    setup_hsl_handlers("hsl", rgb_to_hsl, hsl_to_rgb);
     setup_hsl_handlers("okhsl", srgb_to_okhsl, okhsl_to_srgb);
-    setup_hsl_handlers("hsluv", rgb_to_hsluv, hsluv_to_rgb);
 
     document.getElementById('hex_input').addEventListener('change', (event) => {
         let rgb = hex_to_rgb(event.target.value);
@@ -605,17 +568,42 @@ function initialize() {
         update_url();
     }, false);
 
+    document.getElementById('rgb_r_input').addEventListener('change', (event) => {
+        r = event.target.value;
+        update();
+        update_url();
+    }, false);
+    document.getElementById('rgb_g_input').addEventListener('change', (event) => {
+        g = event.target.value;
+        update();
+        update_url();
+    }, false);
+    document.getElementById('rgb_b_input').addEventListener('change', (event) => {
+        b = event.target.value;
+        update();
+        update_url();
+    }, false);
+
+    document.getElementById('rgbf_r_input').addEventListener('change', (event) => {
+        r = event.target.value * 255;
+        update();
+        update_url();
+    }, false);
+    document.getElementById('rgbf_g_input').addEventListener('change', (event) => {
+        g = event.target.value * 255;
+        update();
+        update_url();
+    }, false);
+    document.getElementById('rgbf_b_input').addEventListener('change', (event) => {
+        b = event.target.value * 255;
+        update();
+        update_url();
+    }, false);
+
     let results = render_static();
 
-    update_canvas('hsv_h_canvas', results["hsv_h"]);
     update_canvas('okhsv_h_canvas', results["okhsv_h"]);
     update_canvas('oklch_h_canvas', results["oklch_h"]);
-
-    update_canvas('hsl_l_canvas', results["hsl_l"]);
-    update_canvas('hsl_h_canvas', results["hsl_h"]);
-
-    update_canvas('hsluv_l_canvas', results["hsluv_l"]);
-    update_canvas('hsluv_h_canvas', results["hsluv_h"]);
 
     update_canvas('okhsl_l_canvas', results["okhsl_l"]);
     update_canvas('okhsl_h_canvas', results["okhsl_h"]);
