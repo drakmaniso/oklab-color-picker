@@ -21,8 +21,19 @@
             <h2>sRGB</h2>
             <div class="input-row">
                 <div>
-                    <label>Hex</label>
-                    <input type="text" id="hex_input" maxlength="7" class="hex_input"></input>
+                    <label>r</label>
+                    <input type="number" id="rgbf_r_input" min="0" max="1" step="any" maxlength="4"
+                        class="value_input"></input>
+                </div>
+                <div>
+                    <label>g</label>
+                    <input type="number" id="rgbf_g_input" min="0" max="1" step="any" maxlength="4"
+                        class="value_input"></input>
+                </div>
+                <div>
+                    <label>b</label>
+                    <input type="number" id="rgbf_b_input" min="0" max="1" step="any" maxlength="4"
+                        class="value_input"></input>
                 </div>
                 <div class="spacer"></div>
                 <div>
@@ -53,24 +64,13 @@
             </div>
             <div class="input-row">
                 <div>
-                    <label>r</label>
-                    <input type="number" id="rgbf_r_input" min="0" max="1" step="any" maxlength="4"
-                        class="value_input"></input>
-                </div>
-                <div>
-                    <label>g</label>
-                    <input type="number" id="rgbf_g_input" min="0" max="1" step="any" maxlength="4"
-                        class="value_input"></input>
-                </div>
-                <div>
-                    <label>b</label>
-                    <input type="number" id="rgbf_b_input" min="0" max="1" step="any" maxlength="4"
-                        class="value_input"></input>
+                    <label>Hex</label>
+                    <input type="text" id="hex_input" maxlength="7" class="hex_input"></input>
                 </div>
                 <div class="spacer"></div>
                 <div>
                     <label>rgb</label>
-                    <input type="text" id="rgbf_output" class="value_input">
+                    <input type="text" id="rgbf_output" class="value_output" disabled>
                 </div>
             </div>
 
@@ -116,6 +116,14 @@
                 </div>
             </div>
         </section>
+
+        <section>
+            <h2 class="free">OkLab Hue</h2>
+            <div class="big_slider">
+                <canvas class="big_slider" id="oklab_hue_canvas" width="514" height="31"></canvas>
+            </div>
+        </section>
+
         <div class="flex-container">
 
             <div class="flex-item">
@@ -183,7 +191,7 @@
         <div class="flex-container">
 
             <div class="flex-item">
-                <h2 class="free">OKHSV</h2>
+                <h2 class="free">OkHSV</h2>
 
                 <div class="colorpicker">
                     <canvas class="colorpicker_square" id="okhsv_sv_canvas" width="257" height="257"></canvas>

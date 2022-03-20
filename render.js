@@ -1,5 +1,6 @@
 let lowres_picker_size = (picker_size + 1) / 2;
 let picker_size_inv = 1 / picker_size;
+let big_slider_size_inv = 1 / big_slider_size;
 
 function hsluv_to_rgb(h, s, l) {
     rgb = hsluv.hsluvToRgb([h * 360, s * 100, l * 100]);
@@ -620,6 +621,28 @@ function render_static() {
         }
 
         result["okhsl_h"] = new ImageData(data, slider_width);
+    }
+
+    {
+        let data = new Uint8ClampedArray(big_slider_size * slider_width * 4);
+
+        for (let i = 0; i < big_slider_size; i++) {
+
+            let a_ = Math.cos(2 * Math.PI * i * big_slider_size_inv);
+            let b_ = Math.sin(2 * Math.PI * i * big_slider_size_inv);
+
+            let rgb = hsluv_to_rgb(i / big_slider_size, 0.9, 0.65 + 0.17 * b_ - 0.08 * a_);
+
+            for (let j = 0; j < slider_width; j++) {
+                let index = 4 * (i + j * big_slider_size);
+                data[index + 0] = rgb[0];
+                data[index + 1] = rgb[1];
+                data[index + 2] = rgb[2];
+                data[index + 3] = 255;
+            }
+        }
+
+        result["oklab_hue"] = new ImageData(data, big_slider_size);
     }
 
     return result;

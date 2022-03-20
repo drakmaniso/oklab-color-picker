@@ -75,6 +75,18 @@ canvas.colorpicker_slider
     left: 287px;
     top: 10px;
 }
+div.big_slider
+{
+    height: 64px;
+    width: 640px;
+    background-color:rgb(185,185,185);
+}
+canvas.big_slider
+{
+    position: relative;
+    left: 10px;
+    top: 10px;
+}
 td
 {
     padding: 0px 15px 0px 0px;
@@ -133,8 +145,8 @@ input[type=number] {
 {
     width: 3em; 
 }
-input#rgbf_output {
-    width: 12em;
+.value_output {
+    width: 10em;
     text-align: center;
 }
 

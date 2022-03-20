@@ -135,7 +135,7 @@ function update(async = true) {
     document.getElementById('rgbf_r_input').value = rf.toFixed(2);
     document.getElementById('rgbf_g_input').value = gf.toFixed(2);
     document.getElementById('rgbf_b_input').value = bf.toFixed(2);
-    document.getElementById('rgbf_output').value = `${rf.toFixed(4)} ${gf.toFixed(4)} ${bf.toFixed(4)}`;
+    document.getElementById('rgbf_output').value = `${Math.round(r)} ${Math.round(g)} ${Math.round(b)}`;
 }
 
 function initialize() {
@@ -607,6 +607,7 @@ function initialize() {
 
     update_canvas('okhsl_l_canvas', results["okhsl_l"]);
     update_canvas('okhsl_h_canvas', results["okhsl_h"]);
+    update_canvas('oklab_hue_canvas', results["oklab_hue"]);
 
 
     update(false);
