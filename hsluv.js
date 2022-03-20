@@ -19,19 +19,17 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-let hsluv = (function() {
+let hsluv = (function () {
     function f(a) {
         var c = [],
             b = Math.pow(a + 16, 3) / 1560896;
         b = b > g ? b : a / k;
-        for (var d = 0; 3 > d;) 
-        {
+        for (var d = 0; 3 > d;) {
             var e = d++,
                 h = l[e][0],
                 w = l[e][1];
             e = l[e][2];
-            for (var x = 0; 2 > x;) 
-            {
+            for (var x = 0; 2 > x;) {
                 var y = x++,
                     z = (632260 * e - 126452 * w) * b + 126452 * y;
                 c.push({
@@ -207,10 +205,10 @@ let hsluv = (function() {
         return K(P(a))
     }
     var l = [
-            [3.240969941904521, -1.537383177570093, -.498610760293],
-            [-.96924363628087, 1.87596750150772, .041555057407175],
-            [.055630079696993, -.20397695888897, 1.056971514242878]
-        ],
+        [3.240969941904521, -1.537383177570093, -.498610760293],
+        [-.96924363628087, 1.87596750150772, .041555057407175],
+        [.055630079696993, -.20397695888897, 1.056971514242878]
+    ],
         v = [
             [.41239079926595, .35758433938387, .18048078840183],
             [.21263900587151, .71516867876775, .072192315360733],
@@ -227,16 +225,16 @@ let hsluv = (function() {
         rgbToHsluv: R,
         hpluvToRgb: S,
         rgbToHpluv: T,
-        hsluvToHex: function(a) {
+        hsluvToHex: function (a) {
             return L(Q(a))
         },
-        hexToHsluv: function(a) {
+        hexToHsluv: function (a) {
             return R(N(a))
         },
-        hpluvToHex: function(a) {
+        hpluvToHex: function (a) {
             return L(S(a))
         },
-        hexToHpluv: function(a) {
+        hexToHpluv: function (a) {
             return T(N(a))
         },
         lchToHpluv: K,
