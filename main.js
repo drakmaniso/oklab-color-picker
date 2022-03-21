@@ -50,9 +50,9 @@ function update_canvas(id, image) {
 function display_results_okhsl(results) {
     update_canvas('oklab_saturation_canvas', results["oklab_saturation"]);
     update_canvas('oklab_lightness_canvas', results["oklab_lightness"]);
+
     update_canvas('okhsl_hs_canvas', results["okhsl_hs"]);
     update_canvas('okhsl_hl_canvas', results["okhsl_hl"]);
-    update_canvas('okhsl_s_canvas', results["okhsl_s"]);
     update_canvas('okhsl_sl_canvas', results["okhsl_sl"]);
 }
 
@@ -62,13 +62,9 @@ function update(async = true) {
         let hsl_a = 0.5 + 0.5 * hsl[1] * Math.cos(hsl[0] * 2 * Math.PI);
         let hsl_b = 0.5 + 0.5 * hsl[1] * Math.sin(hsl[0] * 2 * Math.PI);
         document.getElementById('okhsl_hs_manipulator').transform.baseVal.getItem(0).setTranslate(picker_size * hsl_a, picker_size * (1 - hsl_b));
-        document.getElementById('okhsl_l_manipulator').transform.baseVal.getItem(0).setTranslate(0, picker_size * (1 - hsl[2]));
-
         document.getElementById('okhsl_hl_manipulator').transform.baseVal.getItem(0).setTranslate(picker_size * hsl[0], picker_size * (1 - hsl[2]));
-        document.getElementById('okhsl_s_manipulator').transform.baseVal.getItem(0).setTranslate(0, picker_size * (1 - hsl[1]));
-
         document.getElementById('okhsl_sl_manipulator').transform.baseVal.getItem(0).setTranslate(picker_size * hsl[1], picker_size * (1 - hsl[2]));
-        document.getElementById('okhsl_h_manipulator').transform.baseVal.getItem(0).setTranslate(0, picker_size * hsl[0]);
+
         document.getElementById('oklab_hue_manipulator').transform.baseVal.getItem(0).setTranslate(big_slider_size * hsl[0], 0);
         document.getElementById('oklab_saturation_manipulator').transform.baseVal.getItem(0).setTranslate(big_slider_size * hsl[1], 0);
         document.getElementById('oklab_lightness_manipulator').transform.baseVal.getItem(0).setTranslate(big_slider_size * hsl[2], 0);
@@ -96,7 +92,8 @@ function update(async = true) {
     document.getElementById('rgbf_r_input').value = rf.toFixed(2);
     document.getElementById('rgbf_g_input').value = gf.toFixed(2);
     document.getElementById('rgbf_b_input').value = bf.toFixed(2);
-    document.getElementById('rgbf_output').value = `${Math.round(r)} ${Math.round(g)} ${Math.round(b)}`;
+    document.getElementById('rgbf_output').textContent = `0x${Math.round(r).toString(16)} 0x${Math.round(g).toString(16)
+        } 0x${Math.round(b).toString(16)}`;
 }
 
 function initialize() {
@@ -211,16 +208,6 @@ function initialize() {
             b = rgb[2];
         });
 
-        setup_handler(document.getElementById('okhsl_l_canvas'), function (x, y) {
-            let l = clamp(1 - y / picker_size);
-
-            let hsl = srgb_to_okhsl(r, g, b);
-            rgb = okhsl_to_srgb(hsl[0], hsl[1], l);
-            r = rgb[0];
-            g = rgb[1];
-            b = rgb[2];
-        });
-
         setup_handler(document.getElementById('okhsl_hl_canvas'), function (x, y) {
             let hsl = srgb_to_okhsl(r, g, b);
 
@@ -233,16 +220,6 @@ function initialize() {
             b = rgb[2];
         });
 
-        setup_handler(document.getElementById('okhsl_s_canvas'), function (x, y) {
-            let s = clamp(1 - y / picker_size);
-
-            let hsl = srgb_to_okhsl(r, g, b);
-            rgb = okhsl_to_srgb(hsl[0], s, hsl[2]);
-            r = rgb[0];
-            g = rgb[1];
-            b = rgb[2];
-        });
-
         setup_handler(document.getElementById('okhsl_sl_canvas'), function (x, y) {
             let hsl = srgb_to_okhsl(r, g, b);
 
@@ -250,17 +227,6 @@ function initialize() {
             let new_v = clamp(1 - y / picker_size);
 
             rgb = okhsl_to_srgb(hsl[0], new_s, new_v);
-            r = rgb[0];
-            g = rgb[1];
-            b = rgb[2];
-        });
-
-        setup_handler(document.getElementById('okhsl_h_canvas'), function (x, y) {
-            console.log("***")
-            let h = clamp(y / picker_size);
-
-            let hsl = srgb_to_okhsl(r, g, b);
-            rgb = okhsl_to_srgb(h, hsl[1], hsl[2]);
             r = rgb[0];
             g = rgb[1];
             b = rgb[2];
@@ -371,8 +337,6 @@ function initialize() {
 
     let results = render_static();
 
-    update_canvas('okhsl_l_canvas', results["okhsl_l"]);
-    update_canvas('okhsl_h_canvas', results["okhsl_h"]);
     update_canvas('oklab_hue_canvas', results["oklab_hue"]);
 
 

@@ -1,6 +1,7 @@
 body 
 {
-    background-color: rgb(59,59,59);
+    color:rgb(60,60,60);
+    background-color: rgb(110,110,110);
     font-family: sans-serif;
     width: 100%;
     align-content: center;
@@ -55,7 +56,7 @@ div.colorpicker
 {
     position: relative; 
     height: 300px; 
-    width: 320px
+    width: 300px
 }
 svg.colorpicker
 {
