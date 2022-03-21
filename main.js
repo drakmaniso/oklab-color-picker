@@ -48,6 +48,8 @@ function update_canvas(id, image) {
 }
 
 function display_results_okhsl(results) {
+    update_canvas('oklab_saturation_canvas', results["oklab_saturation"]);
+    update_canvas('oklab_lightness_canvas', results["oklab_lightness"]);
     update_canvas('okhsl_hs_canvas', results["okhsl_hs"]);
     update_canvas('okhsl_hl_canvas', results["okhsl_hl"]);
     update_canvas('okhsl_s_canvas', results["okhsl_s"]);
@@ -68,6 +70,8 @@ function update(async = true) {
         document.getElementById('okhsl_sl_manipulator').transform.baseVal.getItem(0).setTranslate(picker_size * hsl[1], picker_size * (1 - hsl[2]));
         document.getElementById('okhsl_h_manipulator').transform.baseVal.getItem(0).setTranslate(0, picker_size * hsl[0]);
         document.getElementById('oklab_hue_manipulator').transform.baseVal.getItem(0).setTranslate(big_slider_size * hsl[0], 0);
+        document.getElementById('oklab_saturation_manipulator').transform.baseVal.getItem(0).setTranslate(big_slider_size * hsl[1], 0);
+        document.getElementById('oklab_lightness_manipulator').transform.baseVal.getItem(0).setTranslate(big_slider_size * hsl[2], 0);
 
         document.getElementById('okhsl_h_input').value = Math.round(360 * hsl[0]);
         document.getElementById('okhsl_s_input').value = Math.round(100 * hsl[1]);
@@ -263,11 +267,30 @@ function initialize() {
         });
 
         setup_handler(document.getElementById('oklab_hue_canvas'), function (x, y) {
-            console.log("***")
             let h = clamp(x / big_slider_size);
 
             let hsl = srgb_to_okhsl(r, g, b);
             rgb = okhsl_to_srgb(h, hsl[1], hsl[2]);
+            r = rgb[0];
+            g = rgb[1];
+            b = rgb[2];
+        });
+
+        setup_handler(document.getElementById('oklab_saturation_canvas'), function (x, y) {
+            let s = clamp(x / big_slider_size);
+
+            let hsl = srgb_to_okhsl(r, g, b);
+            rgb = okhsl_to_srgb(hsl[0], s, hsl[2]);
+            r = rgb[0];
+            g = rgb[1];
+            b = rgb[2];
+        });
+
+        setup_handler(document.getElementById('oklab_lightness_canvas'), function (x, y) {
+            let l = clamp(x / big_slider_size);
+
+            let hsl = srgb_to_okhsl(r, g, b);
+            rgb = okhsl_to_srgb(hsl[0], hsl[1], l);
             r = rgb[0];
             g = rgb[1];
             b = rgb[2];
