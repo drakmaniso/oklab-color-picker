@@ -77,15 +77,24 @@ canvas.colorpicker_slider
 }
 div.big_slider
 {
-    height: 64px;
-    width: 640px;
-    background-color:rgb(185,185,185);
+    display: inline-block;
+    /* background-color:rgb(185,185,185); */
+    position: relative;
+    width: 820px;
+    height: 51px;
 }
 canvas.big_slider
 {
-    position: relative;
+    position: absolute;
     left: 10px;
     top: 10px;
+}
+svg.big_slider
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    pointer-events: none;
 }
 td
 {
@@ -168,12 +177,25 @@ input[type=number] {
     }
 }
 
+.slider-field {
+    width: 14em;
+    text-align: right;
+}
+
 .input-row {
     display: flex;
     flex-direction: row;
     /* background-color:rgb(185,185,185); */
     padding: 4px;
-    
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    /* background-color:rgb(185,185,185); */
+    padding: 4px;
+    align-items: center;
 }
 
 .input-row > .spacer {

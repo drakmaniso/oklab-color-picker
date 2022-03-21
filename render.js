@@ -609,7 +609,7 @@ function render_static() {
             let a_ = Math.cos(2 * Math.PI * i * picker_size_inv);
             let b_ = Math.sin(2 * Math.PI * i * picker_size_inv);
 
-            let rgb = hsluv_to_rgb(i / picker_size, 0.9, 0.65 + 0.17 * b_ - 0.08 * a_);
+            let rgb = okhsl_to_srgb(i / picker_size, 0.9, 0.65 + 0.17 * b_ - 0.08 * a_);
 
             for (let j = 0; j < slider_width; j++) {
                 let index = 4 * (i * slider_width + j);
@@ -631,7 +631,7 @@ function render_static() {
             let a_ = Math.cos(2 * Math.PI * i * big_slider_size_inv);
             let b_ = Math.sin(2 * Math.PI * i * big_slider_size_inv);
 
-            let rgb = hsluv_to_rgb(i / big_slider_size, 0.9, 0.65 + 0.17 * b_ - 0.08 * a_);
+            let rgb = okhsl_to_srgb(i / big_slider_size, 0.9, 0.65 + 0.17 * b_ - 0.08 * a_);
 
             for (let j = 0; j < slider_width; j++) {
                 let index = 4 * (i + j * big_slider_size);
