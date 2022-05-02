@@ -92,8 +92,9 @@ function update(async = true) {
     document.getElementById('rgbf_r_input').value = rf.toFixed(2);
     document.getElementById('rgbf_g_input').value = gf.toFixed(2);
     document.getElementById('rgbf_b_input').value = bf.toFixed(2);
-    document.getElementById('rgbf_output').textContent = `0x${Math.round(r).toString(16)} 0x${Math.round(g).toString(16)
+    document.getElementById('rgb_output').textContent = `0x${Math.round(r).toString(16)} 0x${Math.round(g).toString(16)
         } 0x${Math.round(b).toString(16)}`;
+    document.getElementById('rgbf_output').textContent = `${(r / 255).toFixed(9)}, ${(g / 255).toFixed(9)}, ${(b / 255).toFixed(9)} `;
 }
 
 function initialize() {
